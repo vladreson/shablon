@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Магазин{% endblock %}</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; padding: 20px; }
+        .header, .footer { background: #f4f4f4; padding: 10px; text-align: center; }
+        .menu { margin: 20px 0; }
+        .menu a { margin: 0 10px; text-decoration: none; color: #333; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Мой Магазин</h1>
+        {% include 'catalog/menu.html' %}
+    </div>
+
+    <div class="content">
+        {% block content %}
+        {% endblock %}
+    </div>
+
+    <div class="footer">
+        <p>© 2024 Мой Магазин</p>
+    </div>
+</body>
+</html>

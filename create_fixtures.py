@@ -27,4 +27,4 @@ with open('catalog/fixtures/category_data.json', 'w', encoding='utf-8') as f:
 with open('catalog/fixtures/product_data.json', 'w', encoding='utf-8') as f:
     f.write(product_data)
 
-print("Фикстуры успешно созданы!")
+print("Фикстуры созданы!")
