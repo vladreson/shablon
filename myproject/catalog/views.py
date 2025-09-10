@@ -1,11 +1,21 @@
-# catalog/views.py
-from django.shortcuts import render, get_object_or_404
+from django.views.generic import ListView, DetailView, TemplateView
 from .models import Product
 
-def product_detail(request, pk):
-    product = get_object_or_404(Product, pk=pk)
-    return render(request, 'catalog/product_detail.html', {'product': product})
 
-def home(request):
-    products = Product.objects.all()[:5]  # Первые 5 товаров
-    return render(request, 'catalog/home.html', {'products': products})
+class HomeView(ListView):
+    model = Product
+    template_name = 'catalog/home.html'
+    context_object_name = 'products'
+
+    def get_queryset(self):
+        return Product.objects.all()[:5]
+
+
+class ProductDetailView(DetailView):
+    model = Product
+    template_name = 'catalog/product_detail.html'
+    context_object_name = 'product'
+
+
+class ContactsView(TemplateView):
+    template_name = 'catalog/contacts.html'
