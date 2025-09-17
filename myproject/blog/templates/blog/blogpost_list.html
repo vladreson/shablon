@@ -1,0 +1,26 @@
+{% extends 'blog/base.html' %}
+
+{% block title %}Все статьи - Блог{% endblock %}
+
+{% block content %}
+<h2>Все статьи блога</h2>
+<a href="{% url 'blog:create' %}" class="btn">➕ Добавить новую статью</a>
+
+{% for post in object_list %}
+<div class="blog-post">
+    <h3>{{ post.title }}</h3>
+    {% if post.preview %}
+        <img src="{{ post.preview.url }}" alt="{{ post.title }}" width="200">
+    {% endif %}
+    <p>{{ post.content|truncatewords:30 }}</p>
+    <p><small>Дата: {{ post.created_at|date:"d.m.Y H:i" }} | Просмотры: {{ post.views_count }}</small></p>
+    <div>
+        <a href="{% url 'blog:detail' post.pk %}" class="btn">Читать далее</a>
+        <a href="{% url 'blog:update' post.pk %}" class="btn">✏️ Редактировать</a>
+        <a href="{% url 'blog:delete' post.pk %}" class="btn">🗑️ Удалить</a>
+    </div>
+</div>
+{% empty %}
+<p>Пока нет статей в блоге.</p>
+{% endfor %}
+{% endblock %}
