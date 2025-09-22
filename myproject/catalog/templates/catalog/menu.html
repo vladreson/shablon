@@ -1,5 +1,5 @@
 <nav class="menu">
-    <a href="{% url 'home' %}">Главная</a>
+    <a href="{% url 'catalog:home' %}">Главная</a>
     <a href="{% url 'blog:list' %}">Блог</a>
     {% if user.is_authenticated %}
         <a href="{% url 'catalog:product_create' %}">Добавить товар</a>

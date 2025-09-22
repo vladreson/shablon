@@ -141,3 +141,6 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'your-email@yandex.ru'
 EMAIL_HOST_PASSWORD = 'your-password'
+
+# myproject/settings.py
+AUTH_USER_MODEL = 'users.User'
