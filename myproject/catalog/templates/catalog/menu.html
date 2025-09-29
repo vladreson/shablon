@@ -1,8 +1,14 @@
 <nav class="menu">
     <a href="{% url 'catalog:home' %}">Главная</a>
+    <a href="{% url 'catalog:product_list' %}">Все товары</a>
+    <a href="{% url 'catalog:category_list' %}">Категории</a>
     <a href="{% url 'blog:list' %}">Блог</a>
     {% if user.is_authenticated %}
         <a href="{% url 'catalog:product_create' %}">Добавить товар</a>
+        <!-- Временно убираем сложную логику -->
+        {% if user.is_superuser %}
+            <a href="{% url 'catalog:category_create' %}">Добавить категорию</a>
+        {% endif %}
         <form method="post" action="{% url 'users:logout' %}" class="menu-form">
             {% csrf_token %}
             <button type="submit" class="menu-link">Выйти ({{ user.email }})</button>

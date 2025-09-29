@@ -8,8 +8,12 @@
         <a href="{% url 'catalog:product_create' %}" class="btn btn-primary mb-3">➕ Добавить новый продукт</a>
     {% endif %}
 
+    <div class="mb-3">
+        <a href="{% url 'catalog:category_list' %}" class="btn btn-outline-info">📁 Все категории</a>
+    </div>
+
     <div class="row">
-        {% for product in object_list %}
+        {% for product in products %}
         <div class="col-md-4 mb-4">
             <div class="card product-card">
                 {% if product.image %}
@@ -18,13 +22,24 @@
                 <div class="card-body">
                     <h5 class="card-title">{{ product.name }}</h5>
                     <p class="card-text">{{ product.description|truncatechars:100 }}</p>
+
+                    {% if product.category %}
+                        <p class="card-text">
+                            <strong>Категория:</strong>
+                            <a href="{% url 'catalog:category_products' product.category.slug %}" class="text-decoration-none">
+                                {{ product.category.name }}
+                            </a>
+                        </p>
+                    {% endif %}
+
                     <p class="card-text"><strong>Цена:</strong> {{ product.price }} руб.</p>
                     <p class="card-text"><small class="text-muted">Статус: {{ product.get_publication_status_display }}</small></p>
 
                     <div class="d-flex justify-content-between">
                         <a href="{% url 'catalog:product_detail' product.pk %}" class="btn btn-outline-primary">Подробнее</a>
 
-                        {% if user.is_authenticated and user == product.owner or user.has_perm 'catalog.can_unpublish_product' %}
+                        <!-- Временно упрощаем - показываем кнопку редактирования только владельцу -->
+                        {% if user.is_authenticated and user == product.owner %}
                             <a href="{% url 'catalog:product_update' product.pk %}" class="btn btn-outline-warning">✏️</a>
                         {% endif %}
                     </div>
