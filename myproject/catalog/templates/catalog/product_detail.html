@@ -1,15 +1,35 @@
 {% extends 'catalog/base.html' %}
 
 {% block content %}
-<div class="product-detail">
-    <h1>{{ product.name }}</h1>
-    {% if product.image %}
-        <img src="{{ product.image.url }}" alt="{{ product.name }}" width="300">
-    {% endif %}
-    <p><strong>Описание:</strong> {{ product.description }}</p>
-    <p><strong>Категория:</strong> {{ product.category.name }}</p>
-    <p><strong>Цена:</strong> {{ product.price }} руб.</p>
-    <p><strong>Дата создания:</strong> {{ product.created_at|date:"d.m.Y H:i" }}</p>
-    <a href="{% url 'home' %}">← Назад на главную</a>
+<div class="container mt-4">
+    <div class="product-detail">
+        <h1>{{ product.name }}</h1>
+
+        {% if product.image %}
+            <img src="{{ product.image.url }}" alt="{{ product.name }}" width="300" class="mb-3">
+        {% endif %}
+
+        <p><strong>Описание:</strong> {{ product.description }}</p>
+        <p><strong>Категория:</strong> {{ product.category.name }}</p>
+        <p><strong>Цена:</strong> {{ product.price }} руб.</p>
+        <p><strong>Статус:</strong> {{ product.get_publication_status_display }}</p>
+        <p><strong>Владелец:</strong> {{ product.owner.email|default:"Не указан" }}</p>
+        <p><strong>Дата создания:</strong> {{ product.created_at|date:"d.m.Y H:i" }}</p>
+
+        <!-- Кнопки действий -->
+        {% if user.is_authenticated %}
+        <div class="product-actions mt-4">
+            {% if user == product.owner or user.has_perm 'catalog.can_unpublish_product' %}
+                <a href="{% url 'catalog:product_update' product.pk %}" class="btn btn-warning">✏️ Редактировать</a>
+            {% endif %}
+
+            {% if user == product.owner or user.has_perm 'catalog.delete_product' %}
+                <a href="{% url 'catalog:product_delete' product.pk %}" class="btn btn-danger">🗑️ Удалить</a>
+            {% endif %}
+        </div>
+        {% endif %}
+
+        <a href="{% url 'catalog:product_list' %}" class="btn btn-secondary mt-3">← Назад к списку</a>
+    </div>
 </div>
 {% endblock %}

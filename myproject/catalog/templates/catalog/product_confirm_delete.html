@@ -1,0 +1,53 @@
+{% extends 'catalog/base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-danger text-white">
+                    <h4 class="mb-0">🗑️ Удаление продукта</h4>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">Вы уверены, что хотите удалить продукт <strong>"{{ object.name }}"</strong>?</p>
+
+                    <div class="alert alert-warning">
+                        <strong>Внимание!</strong> Это действие нельзя отменить. Продукт будет удален безвозвратно.
+                    </div>
+
+                    <div class="product-info">
+                        <p><strong>Описание:</strong> {{ object.description|truncatechars:100 }}</p>
+                        <p><strong>Цена:</strong> {{ object.price }} руб.</p>
+                        <p><strong>Категория:</strong> {{ object.category.name }}</p>
+                        <p><strong>Статус:</strong> {{ object.get_publication_status_display }}</p>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <form method="post" class="d-flex gap-2">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger flex-fill">🗑️ Да, удалить</button>
+                        <a href="{% url 'catalog:product_detail' object.pk %}" class="btn btn-secondary flex-fill">❌ Отмена</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.product-info {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 4px;
+    margin: 15px 0;
+}
+
+.card {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.alert {
+    margin: 15px 0;
+}
+</style>
+{% endblock %}
